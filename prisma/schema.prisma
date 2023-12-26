@@ -11,7 +11,52 @@ datasource db {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
+  id       String @id @default(uuid())
+  email    String @unique
+  fullName String
+  role     ROLE   @default(USER)
+  password String
+  donar    Donar?
+
+  @@map("users")
+}
+
+model Donar {
+  id String @id @default(uuid())
+
+  user_id String @unique
+  user    User   @relation(fields: [user_id], references: [id])
+
+  blood_group_id String
+  blood_group    BloodGroup @relation(fields: [blood_group_id], references: [id])
+
+  date_of_birth        DateTime
+  phone_number         String
+  emmergency_contact   String?
+  last_donation_date   DateTime?
+  total_donations      String?
+  upcoming_eligibility String?
+  photo                String?
+  status               String
+
+  @@map("doners")
+}
+
+model BloodGroup {
+  id         String  @id @default(uuid())
+  blood_type String
+  donars     Donar[]
+
+  @@map("blood_group")
+}
+
+enum donar_status {
+  PENDIG
+  ACTIVE
+  INACTIVE
+}
+
+enum ROLE {
+  USER
+  DONAR
 }

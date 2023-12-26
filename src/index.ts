@@ -1,16 +1,15 @@
 import { PrismaClient } from "@prisma/client"
-import { Server } from "http";
 import app from "./app";
+import { Request, Response } from "express";
 
 const prisma = new PrismaClient()
 const port = process.env.PORT || 8080;
 
 
 async function main() {
-    const server: Server = app.listen(port, () => {
+    app.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
-
 }
 
 main()
